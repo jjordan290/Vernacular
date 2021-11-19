@@ -19,12 +19,12 @@ class TopSection extends StatelessWidget {
             children: [
               Text(
                 today,
-                style: TextStyle(color: Colors.grey, fontSize: 13.0),
+                style: TextStyle(color: Colors.grey, fontSize: 15.0),
               ),
               Text(
                 'Today',
                 style: TextStyle(
-                  fontSize: 33.0,
+                  fontSize: 35.0,
                 ),
               )
             ],

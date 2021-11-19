@@ -1,5 +1,5 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, import_of_legacy_library_into_null_safe, prefer_final_fields, use_key_in_widget_constructors, unused_field
-
+//favorites screen
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:word_app/components/drawer.dart';
@@ -32,7 +32,9 @@ class _NavState extends State<Nav> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text('Favorite Words'),
+            title: Text(
+              'Favorite Words',
+            ),
             elevation: 0.0,
           ),
           body: Container(
@@ -42,9 +44,19 @@ class _NavState extends State<Nav> {
                         .map(
                           (word) => Padding(
                             padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                            child: Text(
-                              '${word[0].toUpperCase()}${word.substring(1)}',
-                              style: TextStyle(fontSize: 20.0),
+                            child: Card(
+                              color: Colors.lightBlue[
+                                  50], //color of each past word term box
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  5.0,
+                                ),
+                              ),
+                              elevation: 2.0,
+                              child: Text(
+                                ' ${word[0].toUpperCase()}${word.substring(1)}',
+                                style: TextStyle(fontSize: 35.0),
+                              ),
                             ),
                           ),
                         )
@@ -104,7 +116,7 @@ class _NavState extends State<Nav> {
         selectedFontSize: 16.0,
         unselectedItemColor: Colors.white,
         unselectedFontSize: 12.0,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue[900],
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
       ),

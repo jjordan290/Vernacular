@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, import_of_legacy_library_into_null_safe, unused_import, prefer_const_constructors, sized_box_for_whitespace, annotate_overrides, avoid_print, unused_field, missing_required_param
 // @dart=2.9
+//main screen
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import 'package:word_app/models/word.dart';
 import 'package:word_app/key.dart';
 import 'dart:convert';
 import 'package:word_app/models/saved_words.dart';
+import 'package:share_plus/share_plus.dart'; //library for share button
 
 var now = DateTime.now();
 var formatter = DateFormat('yyyy-MM-dd');
@@ -78,7 +80,7 @@ class _MainState extends State<Main> {
                                 // ignore: unnecessary_string_interpolations
                                 '${snapshot.data.word[0].toUpperCase()}${snapshot.data.word.substring(1)}',
                                 style: TextStyle(
-                                    fontSize: 45,
+                                    fontSize: 50, //word size
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black),
@@ -92,22 +94,24 @@ class _MainState extends State<Main> {
                           Text(
                             snapshot.data.definitions[0].partOfSpeech,
                             style: TextStyle(
-                              fontSize: 18,
+                              //mainscreen POS text edit
+                              fontSize: 25,
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.w400,
-                              color: Colors.grey,
+                              color: Colors.grey[600],
                               fontStyle: FontStyle.italic,
                             ),
                           ),
                           SizedBox(
-                            height: 10.0,
+                            height: 15.0,
                           ),
                           Text(
                             snapshot.data.definitions[0].text,
                             style: TextStyle(
-                                fontSize: 20,
+                                //mainscreen defintion text edit
+                                fontSize: 30,
                                 fontFamily: 'Roboto',
-                                color: Colors.blueGrey,
+                                color: Colors.blueGrey[800],
                                 fontWeight: FontWeight.w300),
                           ),
                           buildRow(snapshot.data.word),
@@ -132,7 +136,22 @@ class _MainState extends State<Main> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Icon(Icons.share),
+        IconButton(
+          icon: Icon(Icons.skip_next_rounded, size: 30),
+          onPressed: () => {
+            setState(() {
+              Word();
+            })
+          },
+        ),
+        //share button
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: () {
+            Share.share('Check out our app http://localhost:50666/#/');
+          },
+        ),
+        //favorite button (main screen)
         IconButton(
           icon: Icon(
             alreadySaved ? Icons.favorite : Icons.favorite_border,
