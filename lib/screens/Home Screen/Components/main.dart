@@ -20,7 +20,7 @@ final String url = 'https://api.wordnik.com/v4/words.json/wordOfTheDay?date=' +
     apiKey;
 
 Future<Word> fetchWord() async {
-  final response = await http.get(url);
+  final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

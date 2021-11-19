@@ -31,8 +31,8 @@ Future<List<Word>> getAllWords() async {
     daySeven
   ];
 
-  final response = await Future.wait(dates.map((d) => http.get(
-      'https://api.wordnik.com/v4/words.json/wordOfTheDay?date=$d&api_key=$apiKey')));
+  final response = await Future.wait(dates.map((d) => http.get(Uri.parse(
+      'https://api.wordnik.com/v4/words.json/wordOfTheDay?date=$d&api_key=$apiKey'))));
 
   return response.map((r) {
     if (r.statusCode == 200) {
