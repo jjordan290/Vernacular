@@ -7,6 +7,8 @@ import 'package:word_app/models/definition.dart';
 import 'package:word_app/models/word.dart';
 import 'package:word_app/key.dart';
 import 'dart:convert';
+import 'package:word_app/models/saved_words.dart';
+import 'package:share_plus/share_plus.dart'; //library for share button
 
 var now = DateTime.now();
 var formatter = DateFormat('yyyy-MM-dd');
@@ -42,12 +44,14 @@ Future<List<Word>> getAllWords() async {
 }
 
 class Main extends StatefulWidget {
+  static final _savedWords = SavedWords.savedWords;
   @override
   _MainState createState() => _MainState();
 }
 
 class _MainState extends State<Main> {
   late Future<List<Word>> futureWord;
+  final _savedWords = Main._savedWords;
   @override
   void initState() {
     super.initState();
@@ -66,7 +70,7 @@ class _MainState extends State<Main> {
                 for (int i = 0; i < 7; i++) {
                   words.add(
                     Word(
-                      word: snapshot.data![i].word,
+                      word: snapshot.data![i].word, //word is instantiated
                       definitions: [
                         Definition(
                           text: snapshot.data![i].definitions[0].text,
@@ -85,7 +89,7 @@ class _MainState extends State<Main> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text('Could not get words!'),
+                  child: Text('Could not get any words!'),
                 );
               }
               return Center(
@@ -99,10 +103,11 @@ class _MainState extends State<Main> {
   }
 
   Widget wordTemplate(word) {
+    final alreadySaved = _savedWords.contains(word.word);
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Card(
-        color: Colors.white,
+        color: Colors.lightBlue[50], //color of each past word term box
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             5.0,
@@ -121,12 +126,21 @@ class _MainState extends State<Main> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          '${word.word[0].toUpperCase()}${word.word.substring(1)}'),
+                        '${word.word[0].toUpperCase()}${word.word.substring(1)}',
+                        style: TextStyle(
+                          ////word tect edit
+                          fontFamily: 'Roboto',
+                          fontSize: 20, //word size
+                          color: Colors.black,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
                       Text(
                         '${word.definitions[0].partOfSpeech}',
                         style: TextStyle(
+                          //parts of speech text edit
                           fontFamily: 'Roboto',
-                          fontSize: 14,
+                          fontSize: 15, //parts of speech size
                           color: Colors.grey,
                           fontStyle: FontStyle.italic,
                         ),
@@ -134,42 +148,46 @@ class _MainState extends State<Main> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      /*   Text(
-                        '${word.definitions[0].text}',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      */
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.share),
-                      Icon(Icons.favorite),
+                      IconButton(
+                        icon: Icon(Icons.share),
+                        onPressed: () {
+                          Share.share(
+                              'Check out our app http://localhost:50666/#/',
+                              subject: 'Vernacular: Word of the Day App');
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          alreadySaved ? Icons.favorite : Icons.favorite_border,
+                          color: alreadySaved ? Colors.red : null,
+                        ),
+                        onPressed: () => {
+                          setState(() {
+                            if (alreadySaved) {
+                              print('Removing: ' + word.word);
+                              _savedWords.remove(word.word);
+                              print(_savedWords);
+                            } else {
+                              print('Adding: ' + word.word);
+                              _savedWords.add(word.word);
+                              print(_savedWords);
+                            }
+                          })
+                        },
+                      ),
                     ],
                   ),
                 ],
               ),
               Text(
-                '${word.definitions[0].partOfSpeech}',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
                 '${word.definitions[0].text}',
+                //past text definitions text edit
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 17.0,
                 ),
               ),
               SizedBox(
