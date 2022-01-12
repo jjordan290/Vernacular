@@ -1,12 +1,6 @@
-# word_app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+This project features an application designed to bring the user a 'Word of the day' and its called Vernacular. 
+The main purpose of this project is to increase the verbage of users by presenting a new word they could add to their verbage for enhanced communication 
+Vernacular's dev team features to young, bright, and aspring students (Jordan Johnson and Britnie Alexis) in hopes of increasing their knowledge of API intgration and Front end Design. 
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
